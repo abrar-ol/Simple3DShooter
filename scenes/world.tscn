@@ -1,6 +1,7 @@
-[gd_scene load_steps=6 format=3 uid="uid://cgbdfy2ab2nqm"]
+[gd_scene load_steps=7 format=3 uid="uid://cgbdfy2ab2nqm"]
 
 [ext_resource type="PackedScene" uid="uid://tpvpy32erxt3" path="res://scenes/enviroment.tscn" id="1_j5o85"]
+[ext_resource type="Script" path="res://scripts/world.gd" id="1_rc6dg"]
 [ext_resource type="PackedScene" uid="uid://dnyemkdjcp2n3" path="res://scenes/player.tscn" id="2_gsjrk"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_ylpys"]
@@ -17,6 +18,7 @@ tonemap_mode = 2
 glow_enabled = true
 
 [node name="World" type="Node3D"]
+script = ExtResource("1_rc6dg")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(-0.866023, -0.433016, 0.250001, 0, 0.499998, 0.866027, -0.500003, 0.749999, -0.43301, 0, 0, 0)
@@ -28,4 +30,3 @@ environment = SubResource("Environment_1aa2i")
 [node name="Enviroment" parent="." instance=ExtResource("1_j5o85")]
 
 [node name="Player" parent="." instance=ExtResource("2_gsjrk")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 2, 19)
