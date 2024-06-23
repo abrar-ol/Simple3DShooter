@@ -7,6 +7,7 @@ const JUMP_VELOCITY = 10.0
 # Get the gravity from the project settings to be synced with RigidBody nodes.
 var gravity = 20.0
 @onready var camera = $Camera3D
+@onready var animation_player = $AnimationPlayer
 
 func _ready():
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
@@ -37,5 +38,10 @@ func _physics_process(delta):
 	else:
 		velocity.x = move_toward(velocity.x, 0, SPEED)
 		velocity.z = move_toward(velocity.z, 0, SPEED)
-
+	
+	if input_dir != Vector2.ZERO and is_on_floor():
+		animation_player.play("move")
+	else:
+		animation_player.play("idle")
+		
 	move_and_slide()
