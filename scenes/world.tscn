@@ -1,3 +1,27 @@
-[gd_scene format=3 uid="uid://cgbdfy2ab2nqm"]
+[gd_scene load_steps=5 format=3 uid="uid://cgbdfy2ab2nqm"]
+
+[ext_resource type="PackedScene" uid="uid://tpvpy32erxt3" path="res://scenes/enviroment.tscn" id="1_j5o85"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_ylpys"]
+sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+ground_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+
+[sub_resource type="Sky" id="Sky_2cvyr"]
+sky_material = SubResource("ProceduralSkyMaterial_ylpys")
+
+[sub_resource type="Environment" id="Environment_1aa2i"]
+background_mode = 2
+sky = SubResource("Sky_2cvyr")
+tonemap_mode = 2
+glow_enabled = true
 
 [node name="World" type="Node3D"]
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(-0.866023, -0.433016, 0.250001, 0, 0.499998, 0.866027, -0.500003, 0.749999, -0.43301, 0, 0, 0)
+shadow_enabled = true
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_1aa2i")
+
+[node name="Enviroment" parent="." instance=ExtResource("1_j5o85")]
