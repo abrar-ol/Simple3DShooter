@@ -1,6 +1,7 @@
-[gd_scene load_steps=5 format=3 uid="uid://cgbdfy2ab2nqm"]
+[gd_scene load_steps=6 format=3 uid="uid://cgbdfy2ab2nqm"]
 
 [ext_resource type="PackedScene" uid="uid://tpvpy32erxt3" path="res://scenes/enviroment.tscn" id="1_j5o85"]
+[ext_resource type="PackedScene" uid="uid://dnyemkdjcp2n3" path="res://scenes/player.tscn" id="2_gsjrk"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_ylpys"]
 sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
@@ -25,3 +26,6 @@ shadow_enabled = true
 environment = SubResource("Environment_1aa2i")
 
 [node name="Enviroment" parent="." instance=ExtResource("1_j5o85")]
+
+[node name="Player" parent="." instance=ExtResource("2_gsjrk")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 2, 19)
