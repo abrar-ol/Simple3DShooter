@@ -8,6 +8,7 @@ const JUMP_VELOCITY = 10.0
 var gravity = 20.0
 @onready var camera = $Camera3D
 @onready var animation_player = $AnimationPlayer
+@onready var muzzle_flash = $Camera3D/Pistol/MuzzleFlash
 
 func _ready():
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
@@ -53,3 +54,5 @@ func _physics_process(delta):
 func play_shoot_effects():
 	animation_player.stop()
 	animation_player.play("shoot")
+	muzzle_flash.restart()
+	muzzle_flash.emitting = true
