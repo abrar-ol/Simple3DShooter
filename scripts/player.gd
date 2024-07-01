@@ -28,7 +28,7 @@ func _unhandled_input(event):
 		camera.rotation.x = clamp(camera.rotation.x,-PI/4,PI/4)
 	if Input.is_action_just_pressed("shoot") and \
 		animation_player.current_animation != "shoot":
-			play_shoot_effects()
+			play_shoot_effects.rpc()
 	
 func _physics_process(delta):
 	if not is_multiplayer_authority() : return
@@ -61,6 +61,7 @@ func _physics_process(delta):
 		
 	move_and_slide()
 	
+@rpc("call_local")
 func play_shoot_effects():
 	animation_player.stop()
 	animation_player.play("shoot")
