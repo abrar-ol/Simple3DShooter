@@ -30,7 +30,11 @@ func _on_host_button_pressed():
 	# (wire up a signal) peer_connected is a signal thet is going to emmit 
 	# at a server every time a client connect to it
 	# it connects add_player, it's gonna pass in the new peer id
-	add_player(multiplayer.get_unique_id())
+	
+	add_player(multiplayer.get_unique_id()) 
+	
+	# make sure to remove the client from the scene when quit:
+	multiplayer.peer_disconnected.connect(remove_player)
 
 func _on_join_button_2_pressed():
 	main_menu.hide()
@@ -44,10 +48,16 @@ func add_player(peer_id):
 	add_child(player)
 	if player.is_multiplayer_authority():
 		player.health_changed.connect(update_health_bar)
+
+func remove_player(peer_id):
+	var player = get_node_or_null(str(peer_id))
+	if player:
+		player.queue_free()
  
 func update_health_bar(health_value):
 	health_bar.value = health_value
 
 # for connecting the players in the clients
 func _on_multiplayer_spawner_spawned(node):
-	pass
+	if node.is_multiplayer_authority():
+		node.health_changed.connect(update_health_bar)
