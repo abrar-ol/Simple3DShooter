@@ -1,7 +1,8 @@
-[gd_scene load_steps=6 format=3 uid="uid://cgbdfy2ab2nqm"]
+[gd_scene load_steps=9 format=3 uid="uid://cgbdfy2ab2nqm"]
 
 [ext_resource type="PackedScene" uid="uid://tpvpy32erxt3" path="res://scenes/enviroment.tscn" id="1_j5o85"]
 [ext_resource type="Script" path="res://scripts/world.gd" id="1_rc6dg"]
+[ext_resource type="Texture2D" uid="uid://vk0a7ej75lcu" path="res://addons/kenney_particle_pack/circle_05.png" id="3_m66l6"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_ylpys"]
 sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
@@ -15,6 +16,12 @@ background_mode = 2
 sky = SubResource("Sky_2cvyr")
 tonemap_mode = 2
 glow_enabled = true
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_sy4ho"]
+bg_color = Color(1, 0.2, 0.141176, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_de5hr"]
+bg_color = Color(0.332898, 0.70022, 0.213234, 1)
 
 [node name="World" type="Node3D"]
 script = ExtResource("1_rc6dg")
@@ -71,9 +78,49 @@ layout_mode = 2
 placeholder_text = "Enter Code to Join"
 alignment = 1
 
+[node name="HUD" type="Control" parent="CanvasLayer"]
+visible = false
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="Crosshair" type="TextureRect" parent="CanvasLayer/HUD"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(0.03, 0.03)
+pivot_offset = Vector2(576, 324)
+texture = ExtResource("3_m66l6")
+stretch_mode = 5
+
+[node name="HealthBar" type="ProgressBar" parent="CanvasLayer/HUD"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 344.0
+offset_top = 26.0
+offset_right = -348.0
+offset_bottom = -582.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/background = SubResource("StyleBoxFlat_sy4ho")
+theme_override_styles/fill = SubResource("StyleBoxFlat_de5hr")
+max_value = 3.0
+value = 3.0
+show_percentage = false
+
 [node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="."]
 _spawnable_scenes = PackedStringArray("res://scenes/player.tscn")
 spawn_path = NodePath("..")
 
 [connection signal="pressed" from="CanvasLayer/MainMenu/MarginContainer/VBoxContainer/HostButton" to="." method="_on_host_button_pressed"]
 [connection signal="pressed" from="CanvasLayer/MainMenu/MarginContainer/VBoxContainer/JoinButton2" to="." method="_on_join_button_2_pressed"]
+[connection signal="spawned" from="MultiplayerSpawner" to="." method="_on_multiplayer_spawner_spawned"]

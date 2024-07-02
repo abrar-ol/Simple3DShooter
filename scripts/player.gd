@@ -7,17 +7,18 @@ extends CharacterBody3D
 # then add the properties to sync like:
 # player position and rotation, camera rotation
 
+signal health_changed(health_value)
+
 const SPEED = 10.0
 const JUMP_VELOCITY = 10.0
 
 # Get the gravity from the project settings to be synced with RigidBody nodes.
-var gravity = 20.0
 @onready var camera = $Camera3D
 @onready var animation_player = $AnimationPlayer
 @onready var muzzle_flash = $Camera3D/Pistol/MuzzleFlash
 @onready var ray_cast = $Camera3D/RayCast3D 
-
 var health = 3
+var gravity = 20.0
 
 
 func _enter_tree():
@@ -93,6 +94,7 @@ func receive_damage():
 	if health <= 0:
 		health=3
 		position = Vector3.ZERO
+	health_changed.emit(health)
 
 func _on_animation_player_animation_finished(anim_name):
 	if anim_name == "shoot":
