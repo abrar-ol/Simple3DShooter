@@ -35,11 +35,13 @@ func _on_host_button_pressed():
 	
 	# make sure to remove the client from the scene when quit:
 	multiplayer.peer_disconnected.connect(remove_player)
+	
+	upnp_setup()
 
 func _on_join_button_2_pressed():
 	main_menu.hide()
 	hud.show()	
-	enet_peer.create_client("localhost",PORT)
+	enet_peer.create_client(adress_entry.text,PORT)
 	multiplayer.multiplayer_peer = enet_peer
 
 func add_player(peer_id):
@@ -61,3 +63,23 @@ func update_health_bar(health_value):
 func _on_multiplayer_spawner_spawned(node):
 	if node.is_multiplayer_authority():
 		node.health_changed.connect(update_health_bar)
+
+# to connect with other players:
+func upnp_setup():
+	var upnp = UPNP.new()  
+	#discover (UPNP device = my router with upnp enabled):
+	var discover_result = upnp.discover()
+	assert(discover_result==UPNP.UPNP_RESULT_SUCCESS,\
+	"UPNP Discover failed! Error %s" % discover_result)
+	assert(upnp.get_gateway() and upnp.get_gateway().is_valid_gateway(),\
+	"UPNP Invalid Gateway")
+	
+	#create the port mapping to automatic port forwarding
+	var map_result = upnp.add_port_mapping(PORT)
+	assert(map_result==UPNP.UPNP_RESULT_SUCCESS,\
+	"UPNP Port mapping failed! Error %s" % map_result)
+	
+	# if all asserts work then the UPNP should be set up 
+	# and people should be able to connect to the host:
+	# print external face IP that people should be type in the join Address field
+	print("Success Join Adress: %s" %upnp.query_external_address())
